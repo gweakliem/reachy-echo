@@ -12,7 +12,7 @@ A voice assistant for the [Reachy Mini Lite](https://github.com/pollen-robotics/
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/yourname/reachy-echo
+git clone https://github.com/gweakliem/reachy-echo
 cd reachy-echo
 uv sync
 ```
