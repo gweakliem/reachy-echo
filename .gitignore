@@ -1,0 +1,39 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Models (large binary files — download separately)
+models/wake_word/*.onnx
+models/stt/vosk-model*/
+models/stt/*.zip
+models/tts/*.onnx
+models/tts/*.onnx.json
+models/**/*.1
+
+# Model files downloaded to wrong location
+/*.onnx
+/*.onnx.json
+
+# Sounds (generate or source separately)
+sounds/
+
+# Logs
+logs/
+
+# Env / secrets
+.env
+*.env
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Docker
+.docker/

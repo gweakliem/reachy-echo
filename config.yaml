@@ -1,0 +1,43 @@
+wake_word:
+  model_path: models/wake_word/reachy-wakeword.onnx
+  threshold: 0.5
+  sample_rate: 16000
+  # chunk size in ms — larger = more efficient, more latency
+  chunk_ms: 80
+
+stt:
+  backend: faster-whisper               # vosk | faster-whisper | google
+  model_path: models/stt/vosk-model-small-en-us-0.15
+  sample_rate: 16000
+  # max seconds to listen after wake word before timeout
+  listen_timeout_s: 8
+  # silence duration (seconds) that ends an utterance
+  silence_threshold_s: 1.2
+
+tts:
+  backend: piper                         # piper | google | elevenlabs
+  voice: en_US-amy-low                   # use en_US-amy-medium on Pi 4+
+  model_path: models/tts/en_US-amy-low.onnx
+  quality: low                           # low (Pi 3B) | medium (Pi 4+)
+  sample_rate: 16000
+  # pre-generated audio clips for common responses (faster than TTS synthesis)
+  use_cached_responses: true
+
+robot:
+  enabled: true                          # set false to run without Reachy hardware
+  # connection mode: auto | localhost_only | network
+  connection_mode: auto
+  # use DoA to turn toward speaker on wake word
+  turn_to_speaker: true
+  # animation speed multiplier (1.0 = normal)
+  animation_speed: 1.0
+
+audio:
+  # system audio device for playback (leave null for default)
+  output_device: null
+  # volume 0.0–1.0
+  volume: 0.8
+
+logging:
+  level: INFO                            # DEBUG | INFO | WARNING | ERROR
+  file: logs/reachy-echo.log

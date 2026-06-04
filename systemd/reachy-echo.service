@@ -1,0 +1,21 @@
+[Unit]
+Description=Reachy Echo voice assistant
+After=sound.target
+# Wait for USB device to be ready
+After=sys-subsystem-usb.device
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/reachy-echo
+# Activate virtualenv and run
+ExecStart=/home/pi/reachy-echo/.venv/bin/python main.py
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+# Give audio subsystem time to initialise on boot
+ExecStartPre=/bin/sleep 5
+
+[Install]
+WantedBy=multi-user.target

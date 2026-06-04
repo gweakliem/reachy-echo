@@ -1,0 +1,28 @@
+[project]
+name = "reachy-echo"
+version = "0.1.0"
+description = "Voice assistant for Reachy Mini Lite robot"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "reachy-mini",
+    "openwakeword",
+    "vosk; sys_platform == 'linux'",
+    "sounddevice",
+    "numpy",
+    "piper-tts",
+    "scipy",
+    "pyaudio",
+    "pyyaml",
+    "python-dotenv",
+    "soundfile",
+]
+
+[project.optional-dependencies]
+# Pi 4+ only: better STT accuracy, more RAM/CPU headroom required
+whisper = ["faster-whisper"]
+# Cloud fallback backends (disabled by default)
+cloud = [
+    "google-cloud-speech",
+    "google-cloud-texttospeech",
+]

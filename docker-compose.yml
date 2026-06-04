@@ -1,0 +1,53 @@
+services:
+
+  # ── Development on Mac ─────────────────────────────────────────────
+  # No real hardware. Tests audio pipeline with text input.
+  #
+  # Usage:
+  #   docker compose run --rm dev
+  #   docker compose run --rm dev python main.py --text "set a timer for 5 minutes"
+  #   docker compose run --rm dev python main.py --no-robot --no-audio
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/arm/v7
+    volumes:
+      # Live-reload source code without rebuilding
+      - ./:/app
+      # Persist downloaded models between runs
+      - ./models:/app/models
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python main.py --no-robot
+    stdin_open: true
+    tty: true
+
+  # ── Raspberry Pi (production) ───────────────────────────────────────
+  # Passes through USB device for Reachy Mini and audio devices.
+  # Deploy this on the Pi directly.
+  #
+  # Usage (on Pi):
+  #   docker compose --profile pi up
+  pi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/arm/v7
+    profiles: [pi]
+    volumes:
+      - ./:/app
+      - ./models:/app/models
+      - ./logs:/app/logs
+    devices:
+      # Reachy Mini USB-C serial connection
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      # XMOS audio chip (Reachy Mini soundcard)
+      - /dev/bus/usb:/dev/bus/usb
+    # Required for USB and audio device access
+    privileged: true
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python main.py
+    restart: unless-stopped
