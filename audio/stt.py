@@ -77,6 +77,7 @@ class SpeechToText:
             audio_queue.put(bytes(indata))
 
         chunk_size = int(self._sample_rate * 0.1)  # 100ms chunks
+        log.debug(f"Opening RawInputStream...")
         with sd.RawInputStream(
             samplerate=self._sample_rate,
             channels=1,
@@ -95,6 +96,7 @@ class SpeechToText:
                 except queue.Empty:
                     continue
 
+                log.debug("Received chunk...")
                 frames.append(chunk)
 
                 # Simple energy-based VAD to detect speech/silence

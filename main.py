@@ -110,6 +110,7 @@ def main() -> None:
         while True:
             if state == State.IDLE:
                 # Block until wake word fires
+                log.info("Waiting for wake word")
                 doa = wake.wait_for_wake_word()
                 log.info(f"Wake word detected (DoA={doa:.2f} rad)")
                 expressions.on_wake(doa)
